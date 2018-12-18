@@ -1,5 +1,6 @@
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
+var enemyNumber = document.getElementById("myRange").value;
 
 var score=0;
 var time=0;
@@ -186,12 +187,13 @@ function distanceBetween(x1,y1,x2,y2){
 
 
 function draw(){
-    
     c.width = window.innerWidth;
-    c.height = window.innerHeight;
+    c.height = window.innerHeight - 100;
 
     speedTime++;
     timePassed = new Date().getTime()-startTime;
+
+    
 
     player.x += (keys[3]-keys[1]) * player.speed;
     player.y += (keys[2]-keys[0]) * player.speed;
@@ -283,6 +285,7 @@ function draw(){
             speedTime = 0;
             newEnemyTime=50;
             keys=[0,0,0,0];
+            enemyNumber = document.getElementById("myRange").value;
             break;
         }
 
@@ -341,7 +344,7 @@ function draw(){
         enemies.push(newEnemy);
     }
 
-    if(loops % 600 == 0){
+    if(loops % (Math.round(2000 / (enemyNumber/10))) == 0){
         if(newEnemyTime>5){
             newEnemyTime--;
         }
@@ -354,6 +357,8 @@ function draw(){
         }
     }
 
+    document.getElementById("difficulty").innerHTML = document.getElementById("myRange").value;;
+
     ctx.font = "bold 50px Courier";
     ctx.fillStyle = "#000000";
     ctx.fillText(score, 50, 100);
@@ -362,6 +367,7 @@ function draw(){
     ctx.fillText(((highTime)/1000).toFixed(3), c.width/2, c.height-50);
 
     loops++;
+
 }
 
 
